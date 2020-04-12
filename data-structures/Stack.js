@@ -1,11 +1,11 @@
 const ListNode = require('./ListNode')
 const head = Symbol("head")
-module.exports = class LinkedList{
+module.exports = class Stack{
     constructor(){
         this[head] = null
         this.length = 0;
     }
-    add(data){
+    push(data){
         const newNode = new ListNode(data)
         if(this[head] === null){
             this[head] = newNode
@@ -15,48 +15,23 @@ module.exports = class LinkedList{
         }
         this.length++;
     }
-    get(index){
-        if(index >= 0){
-            let current = this[head]
-
-            let i = 0;
-
-            while((current!==null) && (i<index)){
-                current = current.next
-                i++
-            }
-            return current !== null ? current.data : undefined
+    top(){
+        if(this[head]!==null){
+            return this[head]
         }else{
             return undefined
         }
     }
-    remove(index){
-        if((this[head] === null) || (index<0)){
-            throw new RangeError(`Index ${index} doesn't exists`)
-        }
-        if(index===0){
+    pop(){
+        if(this[head] === null){
+            throw new Error(`Stack is empty`)
+        }else{
             const data = this[head].data
             this[head] = this[head].next
             this.length--
             return data
         }
-        let current = this[head]
-
-        let previous = null
-
-        let i = 0
-
-        while((current !== null) && (i<index)){
-            previous = current 
-            current = current.next
-            i++
-        }
-        if(current!==null){
-            previous.next = current.next
-            this.length--
-            return current.data
-        }
-        throw new RangeError(`Index ${index} doesn't exist in the list`)
+        
     }
     *values(){
         let current = this[head]
@@ -79,5 +54,3 @@ module.exports = class LinkedList{
         return string
     }
 }
-
-
